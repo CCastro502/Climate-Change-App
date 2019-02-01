@@ -1,0 +1,28 @@
+nav {
+    background-color: #e3f2fd;
+}
+
+#user-field {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+}
+
+#username {
+    float: right;
+    width: 10%;
+}
+
+
+#password {
+    width: 10%;
+}
+
+.nav-link {
+    cursor: pointer;
+}
+
+#register-link {
+    color: darkblue;
+}
