@@ -3,7 +3,8 @@ import "./style.css";
 
 function Map() {
     return (
-        <div id="map" />
+        <div id="mapid">
+        </div>
     );
 }
 
