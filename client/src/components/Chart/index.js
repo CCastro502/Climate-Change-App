@@ -6,9 +6,9 @@ import { Bar } from "react-chartjs-2";
 class Chart extends Component {
     state = {
         chartData: {
-            Labels: ["Boston", 'Worester', 'Springfield', 'D.C'],
+            labels: ["Boston", 'Worester', 'Springfield', 'D.C'],
             datasets: [{
-                Labels: 'Population',
+                labels: 'Population',
                 data: [
                     200,
                     300,
