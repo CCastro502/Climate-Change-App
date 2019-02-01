@@ -1,5 +1,4 @@
-#chart {
-    width: 40%;
-    height: 400px;
-    background-color: aqua;
+.container {
+    height: 350px;
+    width:50%;
 }
