@@ -25,10 +25,10 @@ class Chart extends Component {
             <div className="container">
                 <Bar
                     data={this.state.chartData}
-                    width={50}
-                    height={100}
+                    width={1}
+                    height={1}
                     options={{
-                        maintainAspectRatio: false
+                        maintainAspectRatio: true
                     }}
                 >
                 </Bar>
