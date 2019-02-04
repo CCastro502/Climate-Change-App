@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import '../components/SearchField';
 import APIKEY from "./apiKeys";
+import Times from './unixTimes';
 import SearchField from "../components/SearchField";
 import BottomRow from '../components/BottomRow';
 import Axios from 'axios';
@@ -18,13 +19,17 @@ class Home extends Component {
   searchThis = event => {
     event.preventDefault();
     console.log(`Search for: ${this.state.search}`);
-    Axios.get("https://api.opencagedata.com/geocode/v1/json?q=" + this.state.search + "&key=" + APIKEY.APIKey)
+    let weatherHistoryData = [];
+    Axios.get("https://api.opencagedata.com/geocode/v1/json?q=" + this.state.search + "&key=" + APIKEY.cageAPIKey)
       .then(data => {
         let { lat, lng } = data.data.results[0].geometry;
         this.setState({ lat: lat, lng: lng });
-        Axios.get(`http://api.worldweatheronline.com/premium/v1/weather.ashx?key=67622c5539b8479284f172322193001&q=${lat},${lng}&num_of_days=2&tp=24&format=json`).then(data => {
-          console.log(data.data);
-        })
+        for (let i = 0; i < Times.times.length; i++) {
+          Axios.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${APIKEY.darkSkyAPIKey}/${lat},${lng},${Times.times[i]}?exclude=hourly,currently,flags`).then(data => {
+            weatherHistoryData.push(data);
+          })
+        }
+        console.log(weatherHistoryData);
       })
       .catch(err => console.log(err))
   }
@@ -33,7 +38,7 @@ class Home extends Component {
     return (
       <>
         <SearchField value={this.state.search} handleInputChange={this.handleInputChange} onSubmit={this.searchThis} />
-        <BottomRow lat={this.state.lat} lng={this.state.lng}/>
+        <BottomRow lat={this.state.lat} lng={this.state.lng} />
       </>
     );
   }
