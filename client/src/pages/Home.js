@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import '../components/SearchField';
+import APIKEY from "./apiKeys";
 import SearchField from "../components/SearchField";
 import BottomRow from '../components/BottomRow';
 import Axios from 'axios';
@@ -17,7 +18,7 @@ class Home extends Component {
   searchThis = event => {
     event.preventDefault();
     console.log(`Search for: ${this.state.search}`);
-    Axios.get("https://api.opencagedata.com/geocode/v1/json?q=" + this.state.search + "&key=352a681eeea64cbeb49f0df280f14edc")
+    Axios.get("https://api.opencagedata.com/geocode/v1/json?q=" + this.state.search + "&key=" + APIKEY.APIKey)
       .then(data => {
         let { lat, lng } = data.data.results[0].geometry;
         this.setState({ lat: lat, lng: lng });

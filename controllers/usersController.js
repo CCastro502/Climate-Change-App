@@ -2,9 +2,9 @@ const db = require("../models");
 
 // Defining methods for the booksController
 module.exports = {
-  findAll: function(res) {
+  findAll: function(req, res) {
     db.User
-      .find({})
+      .find({ email: req.params.email, password: req.params.password})
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err))
   },

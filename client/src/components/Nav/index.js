@@ -8,6 +8,8 @@ class Nav extends Component {
     email: "",
     password: "",
     passwordRepeat: "",
+    loginEmail: "",
+    loginPassword: ""
   }
 
   handleInputChange = event => {
@@ -15,10 +17,15 @@ class Nav extends Component {
     this.setState({ [name]: value });
   };
 
-  login = () => {
-    Axios.get('/api/users/')
+  logIn = () => {
+    const newUser = {
+      email: this.state.loginEmail,
+      password: this.state.loginPassword
+    }
+
+    Axios.get('/api/users/' + this.state.loginEmail + "/" + this.state.loginPassword + "/")
       .then(res => {
-        console.log(res)
+        console.log("respo: ", res);
         return res;
       })
       .catch(err => console.log(err))
@@ -39,11 +46,6 @@ class Nav extends Component {
           email: this.state.email,
           password: this.state.password
         }
-        Axios.get('/api/users')
-          .then(res => {
-            console.log(res);
-            return res;
-          })
         Axios.post('/api/users', newUser)
           .then(res => {
             console.log("Successful: ", res);
@@ -86,8 +88,8 @@ class Nav extends Component {
               <button onClick={this.registerUser}>Register</button>
             </Modal>
 
-            <input className="form-control mr-sm-2" type="search" placeholder="abc@123.com" name="username" id="username" value={this.state.username} onChange={this.handleInputChange} />
-            <input className="form-control mr-sm-2" type="search" placeholder="Password" name="password" id="password" value={this.state.password} onChange={this.handleInputChange} />
+            <input className="form-control mr-sm-2" type="search" placeholder="abc@123.com" name="loginEmail" id="email" value={this.state.loginEmail} onChange={this.handleInputChange} />
+            <input className="form-control mr-sm-2" type="search" placeholder="Password" name="loginPassword" id="password" value={this.state.loginPassword} onChange={this.handleInputChange} />
             <button className="btn btn-outline-success my-2 my-sm-0" onClick={this.logIn}>Log In</button>
 
           </div>
