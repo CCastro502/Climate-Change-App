@@ -1,6 +1,18 @@
-#bottom-row {
+/* #bottom-row {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     margin-bottom: 20px;
+} */
+
+#leaflet-container {
+    height: 400px;
+    width: 100%;
+    margin: 0 auto;
+    overflow: visible !important;
+}
+
+#mapid {
+    height: 400px;
+    width: 100%;
 }

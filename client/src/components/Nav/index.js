@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import "./style.css";
 import { Modal } from 'react-materialize';
+import Axios from 'axios';
 
 class Nav extends Component {
   state = {
     email: "",
-    username: "",
-    password: ""
+    password: "",
+    passwordRepeat: "",
+    loginEmail: "",
+    loginPassword: ""
   }
 
   handleInputChange = event => {
@@ -14,11 +17,53 @@ class Nav extends Component {
     this.setState({ [name]: value });
   };
 
-  login = () => {
+  logIn = () => {
+    const newUser = {
+      email: this.state.loginEmail,
+      password: this.state.loginPassword
+    }
 
+    Axios.get('/api/users/' + this.state.loginEmail + "/" + this.state.loginPassword + "/")
+      .then(res => {
+        console.log("respo: ", res);
+        return res;
+      })
+      .catch(err => console.log(err))
+  }
+
+  checkEmail = () => {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(this.state.email);
   }
 
   registerUser = () => {
+
+    if (this.checkEmail()) {
+
+      if (this.state.password === this.state.passwordRepeat && this.state.password.length > 7) {
+
+        const newUser = {
+          email: this.state.email,
+          password: this.state.password
+        }
+        Axios.post('/api/users', newUser)
+          .then(res => {
+            console.log("Successful: ", res);
+            return res;
+          })
+          .catch(err => console.log(err));
+
+      } else {
+
+        return alert("Password did not match or was not long enough (must be 8 characters)");
+
+      }
+
+    } else {
+
+      return alert("Incorrect email address");
+
+    }
 
   }
 
@@ -35,18 +80,16 @@ class Nav extends Component {
               header='Modal Header'
               trigger={<a className="nav-link" id="register-link" onClick={this.registerUser}>register</a>}>
               <label htmlFor="search-field">Email: </label>
-              <input className="form-control mr-sm-6" name="email" id="search-field" placeholder="abc@123.com" value={this.state.email} onChange={this.handleInputChange} />
-              <label htmlFor="search-field">Username: </label>
-              <input className="form-control mr-sm-6" name="username" id="search-field" placeholder="Username" value={this.state.username} onChange={this.handleInputChange} />
+              <input className="form-control mr-sm-6" name="email" id="email" placeholder="abc@123.com" value={this.state.email} onChange={this.handleInputChange} />
               <label htmlFor="search-field">Password: </label>
-              <input className="form-control mr-sm-6" name="password" id="search-field" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} />
+              <input className="form-control mr-sm-6" name="password" id="password" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} type="password" />
               <label htmlFor="search-field">Repeat Password: </label>
-              <input className="form-control mr-sm-6" name="password-repeat" id="search-field" placeholder="Repeat Password..."/>
+              <input className="form-control mr-sm-6" name="passwordRepeat" id="password-repeat" placeholder="Repeat Password..." type="password" value={this.state.passwordRepeat} onChange={this.handleInputChange} />
               <button onClick={this.registerUser}>Register</button>
             </Modal>
 
-            <input className="form-control mr-sm-2" type="search" placeholder="Username" name="username" id="username" value={this.state.username} onChange={this.handleInputChange} />
-            <input className="form-control mr-sm-2" type="search" placeholder="Password" name="password" id="password" value={this.state.password} onChange={this.handleInputChange} />
+            <input className="form-control mr-sm-2" type="search" placeholder="abc@123.com" name="loginEmail" id="email" value={this.state.loginEmail} onChange={this.handleInputChange} />
+            <input className="form-control mr-sm-2" type="search" placeholder="Password" name="loginPassword" id="password" value={this.state.loginPassword} onChange={this.handleInputChange} />
             <button className="btn btn-outline-success my-2 my-sm-0" onClick={this.logIn}>Log In</button>
 
           </div>

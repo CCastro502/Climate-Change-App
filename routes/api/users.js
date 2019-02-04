@@ -1,16 +1,12 @@
-// const router = require("express").Router();
-// const usersController = require("../../controllers/usersController");
+const router = require("express").Router();
+const usersController = require("../../controllers/usersController");
 
-// // Matches with "/api/books"
-// router.route("/")
-//   .get(usersController.findAll)
-//   .post(booksController.create);
+// Matches with "/api/books"
+router.route("/")
+    .post(usersController.create);
 
-// // Matches with "/api/books/:id"
-// router
-//   .route("/:id")
-//   .get(usersController.findById)
-//   .put(usersController.update)
-//   .delete(usersController.remove);
+// Matches with "/api/books/:id"
+router.route("/:email/:password")
+  .get(usersController.findAll);
 
-// module.exports = router;
+module.exports = router;

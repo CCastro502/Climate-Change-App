@@ -3,6 +3,7 @@ import "./style.css";
 import { Bar } from "react-chartjs-2";
 
 
+
 class Chart extends Component {
     state = {
         chartData: {
