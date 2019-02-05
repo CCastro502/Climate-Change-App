@@ -20,6 +20,10 @@ class Chart extends Component {
         }
     }
 
+    weatherInfo = () => {
+        console.log(this.props.weatherAverages)
+    }
+
 
     render() {
         return (
@@ -33,6 +37,7 @@ class Chart extends Component {
                     }}
                 >
                 </Bar>
+                <button onClick={this.weatherInfo}>Weather here!</button>
             </div>
 
 
