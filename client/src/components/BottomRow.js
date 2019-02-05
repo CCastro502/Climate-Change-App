@@ -24,7 +24,7 @@ function BottomRow(props) {
         <div className="container">
             <div className="row">
                 <div className="col-md-5">
-                    <Chart />
+                    <Chart weatherAverages={props.weatherAverages}/>
                 </div>
                 <div className="col-md-1">
                     <VariableButtons />

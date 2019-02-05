@@ -9,7 +9,8 @@ class Nav extends Component {
     password: "",
     passwordRepeat: "",
     loginEmail: "",
-    loginPassword: ""
+    loginPassword: "",
+    isModalOpen: false
   }
 
   handleInputChange = event => {
@@ -18,6 +19,7 @@ class Nav extends Component {
   };
 
   logIn = () => {
+
     const newUser = {
       email: this.state.loginEmail,
       password: this.state.loginPassword
@@ -25,6 +27,13 @@ class Nav extends Component {
 
     Axios.get('/api/users/' + this.state.loginEmail + "/" + this.state.loginPassword + "/")
       .then(res => {
+        if (res.data.length >= 1) {
+          alert("Log-in successful")
+          this.setState({ loginEmail: "", loginPassword: "" });
+        } else {
+          alert("You're log-in credentials are not correct.")
+          this.setState({ loginPassword: "" })
+        }
         console.log("respo: ", res);
         return res;
       })
@@ -34,6 +43,10 @@ class Nav extends Component {
   checkEmail = () => {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(this.state.email);
+  }
+
+  closeModal = () => {
+    this.setState({ isModalOpen: false });
   }
 
   registerUser = () => {
@@ -46,9 +59,12 @@ class Nav extends Component {
           email: this.state.email,
           password: this.state.password
         }
+
         Axios.post('/api/users', newUser)
           .then(res => {
             console.log("Successful: ", res);
+            alert("You have successfully registered");
+            this.closeModal();
             return res;
           })
           .catch(err => console.log(err));
@@ -65,8 +81,7 @@ class Nav extends Component {
 
     }
 
-  }
-
+  };
   render() {
     return (
       <>
@@ -77,8 +92,9 @@ class Nav extends Component {
           <div id="user-field">
 
             <Modal
-              header='Modal Header'
-              trigger={<a className="nav-link" id="register-link" onClick={this.registerUser}>register</a>}>
+              header='User Info'
+              trigger={<a className="nav-link" id="register-link" onClick={this.registerUser}>register</a>}
+            >
               <label htmlFor="search-field">Email: </label>
               <input className="form-control mr-sm-6" name="email" id="email" placeholder="abc@123.com" value={this.state.email} onChange={this.handleInputChange} />
               <label htmlFor="search-field">Password: </label>
