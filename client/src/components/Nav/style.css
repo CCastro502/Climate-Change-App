@@ -2,21 +2,25 @@ nav {
     background-color: #e3f2fd;
 }
 
+#nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
 #user-field {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    width: 100%;
 }
 
 #username {
-    float: right;
     width: 10%;
 }
 
 
 #password {
-    width: 10%;
+    width: 80px;
 }
 
 .nav-link {

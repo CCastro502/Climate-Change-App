@@ -85,7 +85,7 @@ class Nav extends Component {
   render() {
     return (
       <>
-        <nav className="navbar navbar-expand-lg navbar-light">
+        <nav className="navbar navbar-expand-lg navbar-light" id="nav">
           <a className="navbar-brand" href="/">
             Climate Change App
           </a>
@@ -105,7 +105,7 @@ class Nav extends Component {
             </Modal>
 
             <input className="form-control mr-sm-2" type="search" placeholder="abc@123.com" name="loginEmail" id="email" value={this.state.loginEmail} onChange={this.handleInputChange} />
-            <input className="form-control mr-sm-2" type="search" placeholder="Password" name="loginPassword" id="password" value={this.state.loginPassword} onChange={this.handleInputChange} />
+            <input className="form-control mr-sm-2" type="search" placeholder="Password" name="loginPassword" id="password" value={this.state.loginPassword} onChange={this.handleInputChange} type="password"/>
             <button className="btn btn-outline-success my-2 my-sm-0" onClick={this.logIn}>Log In</button>
 
           </div>

@@ -168,6 +168,7 @@ class Chart extends Component {
             <div className="container">
                 <Line
                     data={this.state.chartData}
+                    id="chart"
                     width={1}
                     height={1}
                     options={{
