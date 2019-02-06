@@ -5,14 +5,14 @@
     margin-bottom: 20px;
 } */
 
-#leaflet-container {
+.leaflet-container {
     height: 400px;
+    /* height: 400px;
     width: 100%;
     margin: 0 auto;
-    overflow: visible !important;
+    overflow: visible !important; */
 }
 
 #mapid {
     height: 400px;
-    width: 100%;
 }

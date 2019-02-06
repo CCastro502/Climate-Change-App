@@ -59,6 +59,7 @@ class Home extends Component {
     Axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.search}&key=${APIKEY.cageAPIKey}`)
       .then(data => {
         let { lat, lng } = data.data.results[0].geometry;
+        this.setState({ lat: lat, lng: lng});
         for (let i = 0; i < 30; i++) {
           Axios.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${APIKEY.darkSkyAPIKey}/${lat},${lng},${Times.times[i]}?exclude=hourly,currently,flags`).then(data => {
             console.log("Individual Data: ", data.data.daily.data[0]);
@@ -77,7 +78,7 @@ class Home extends Component {
     return (
       <>
         <SearchField value={this.state.search} handleInputChange={this.handleInputChange} onSubmit={this.searchThis} />
-        <BottomRow lat={this.state.lat} lng={this.state.lng} weatherAverages={this.state.weatherAverages}/>
+        <BottomRow latlng={{ lat: this.state.lat, lng: this.state.lng }} weatherAverages={this.state.weatherAverages}/>
       </>
     );
   }

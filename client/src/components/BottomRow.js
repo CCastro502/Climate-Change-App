@@ -17,9 +17,9 @@ class BottomRow extends Component {
                         <Chart weatherAverages={this.props.weatherAverages} />
                     </div>
                     <div className="col-md-6">
-                        <div className="mapid">
+                        <div id="mapid">
                             <div className="leaflet-container">
-                                <Map center={this.latlng} zoom={13}>
+                                <Map center={this.props.latlng.lat ? this.props.latlng: { lat: 51.505, lng: -0.09 }} zoom={13}>
                                     <TileLayer
                                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                                         url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
