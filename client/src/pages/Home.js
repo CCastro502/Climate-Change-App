@@ -23,7 +23,7 @@ class Home extends Component {
     for (let i = 0; i < weatherHistoryData.length; i++) {
       if (i === 0 || i % 2 === 0) {
         let newObj = {
-          apparentTemperatureHigh: (parseInt(weatherHistoryData[i].apparentTemperatureHigh) + parseInt(weatherHistoryData[i + 1].apparentTemperatureHigh)) / 2,
+          apparentTemperatureHigh: (weatherHistoryData[i].apparentTemperatureHigh + weatherHistoryData[i + 1].apparentTemperatureHigh) / 2,
           apparentTemperatureLow: (weatherHistoryData[i].apparentTemperatureLow + weatherHistoryData[i + 1].apparentTemperatureLow) / 2,
           apparentTemperatureMax: (weatherHistoryData[i].apparentTemperatureMax + weatherHistoryData[i + 1].apparentTemperatureMax) / 2,
           apparentTemperatureMin: (weatherHistoryData[i].apparentTemperatureMin + weatherHistoryData[i + 1].apparentTemperatureMin) / 2,
@@ -59,11 +59,11 @@ class Home extends Component {
     Axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.search}&key=${APIKEY.cageAPIKey}`)
       .then(data => {
         let { lat, lng } = data.data.results[0].geometry;
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 30; i++) {
           Axios.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${APIKEY.darkSkyAPIKey}/${lat},${lng},${Times.times[i]}?exclude=hourly,currently,flags`).then(data => {
             console.log("Individual Data: ", data.data.daily.data[0]);
             weatherHistoryData.push(data.data.daily.data[0]);
-            if (i === 5) {
+            if (i === 29) {
               this.getAverageWeather(weatherHistoryData);
             }
           })
