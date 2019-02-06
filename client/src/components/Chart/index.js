@@ -132,6 +132,34 @@ class Chart extends Component {
                 console.log("Humidity");
                 this.setState({ axisDefinition: "humidity" });
                 break;
+            case 3:
+                console.log("Precipitation Intensity");
+                this.setState({ axisDefinition: "precipIntensityMax" });
+                break;
+            case 4:
+                console.log("Dew Point");
+                this.setState({ axisDefinition: "dewPoint" });
+                break;
+            case 5:
+                console.log("Visibility");
+                this.setState({ axisDefinition: "visibility" });
+                break;
+            case 6:
+                console.log("Wind Speed");
+                this.setState({ axisDefinition: "windSpeed" });
+                break;
+            case 7:
+                console.log("UV Index");
+                this.setState({ axisDefinition: "uvIndex" });
+                break;
+            case 8:
+                console.log("Cloud Cover");
+                this.setState({ axisDefinition: "cloudCover" });
+                break;
+            case 9:
+                console.log("Pressure");
+                this.setState({ axisDefinition: "pressure" });
+                break;
         }
     }
 
@@ -151,6 +179,13 @@ class Chart extends Component {
                     <option value='1'>High Temp</option>
                     <option value='2'>Low Temp</option>
                     <option value='3'>Humidity</option>
+                    <option value='4'>Precipitation Intensity</option>
+                    <option value='5'>Dew Point</option>
+                    <option value='6'>Visibility</option>
+                    <option value='7'>Wind Speed</option>
+                    <option value='8'>UV Index</option>
+                    <option value='9'>Cloud Cover</option>
+                    <option value='10'>Pressure</option>
                 </Input>
                 <button onClick={this.weatherInfo}>Weather here!</button>
             </div>
