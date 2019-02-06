@@ -57,7 +57,7 @@ class Home extends Component {
     console.log(`Search for: ${this.state.search}`);
     let weatherHistoryData = [];
     // Axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.search}&key=${process.env.CageAPIKey || APIKEY.cageAPIKey}`)
-    Axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.search}&key=${process.env.CAGEAPIKEY}`)  
+    Axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.search}&key=352a681eeea64cbeb49f0df280f14edc`)  
     .then(data => {
         let { lat, lng } = data.data.results[0].geometry;
         this.setState({ lat: lat, lng: lng});
