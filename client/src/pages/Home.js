@@ -57,13 +57,13 @@ class Home extends Component {
     console.log(`Search for: ${this.state.search}`);
     let weatherHistoryData = [];
     // Axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.search}&key=${process.env.CageAPIKey || APIKEY.cageAPIKey}`)
-    Axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.search}&key=${process.env.CAGEAPI_KEY}`)  
+    Axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.search}&key=352a681eeea64cbeb49f0df280f14edc`)  
     .then(data => {
         let { lat, lng } = data.data.results[0].geometry;
         this.setState({ lat: lat, lng: lng});
         for (let i = 0; i < 30; i++) {
           // Axios.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${process.env.darkSkyAPIKey || APIKEY.darkSkyAPIKey}/${lat},${lng},${Times.times[i]}?exclude=hourly,currently,flags`).then(data => {
-            Axios.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${process.env.darkSkyAPIKey}/${lat},${lng},${Times.times[i]}?exclude=hourly,currently,flags`).then(data => {  
+            Axios.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/0c5ce774505eb65bf076f514cf46c7fe/${lat},${lng},${Times.times[i]}?exclude=hourly,currently,flags`).then(data => {  
           console.log("Individual Data: ", data.data.daily.data[0]);
             weatherHistoryData.push(data.data.daily.data[0]);
             if (i === 29) {
