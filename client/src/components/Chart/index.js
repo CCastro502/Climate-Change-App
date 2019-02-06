@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import "./style.css";
-import { Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
+import { SSL_OP_TLS_ROLLBACK_BUG } from "constants";
+import { Input } from 'react-materialize';
 
 
 
 class Chart extends Component {
     state = {
         chartData: {
-            labels: ["Boston", 'Worester', 'Springfield', 'D.C'],
+            labels: ["January", 'February', 'March', 'April', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
             datasets: [{
                 labels: 'Population',
                 data: [
@@ -17,18 +19,126 @@ class Chart extends Component {
                     50000,
                 ]
             }]
-        }
+        },
+        axisValue: 1,
+        axisDefinition: "temperatureHigh"
     }
 
     weatherInfo = () => {
-        console.log(this.props.weatherAverages)
+        const weather = this.props.weatherAverages;
+        const axis = this.state.axisDefinition;
+        let year1 = [];
+        let year2 = [];
+        let year3 = [];
+        let year4 = [];
+        let year5 = [];
+        let year6 = [];
+        let year7 = [];
+        let year8 = [];
+        let year9 = [];
+        let year10 = [];
+        for (let i = 0; i < weather.length; i++) {
+            if (i < 12) {
+                year1.push(weather[i][axis]);
+            } else if (12 <= i < 24) {
+                year2.push(weather[i][axis]);
+            } else if (24 <= i < 36) {
+                year3.push(weather[i][axis]);
+            } else if (36 <= i < 48) {
+                year4.push(weather[i][axis]);
+            } else if (48 <= i < 60) {
+                year5.push(weather[i][axis]);
+            } else if (60 <= i < 72) {
+                year6.push(weather[i][axis]);
+            } else if (72 <= i < 84) {
+                year7.push(weather[i][axis]);
+            } else if (84 <= i < 96) {
+                year8.push(weather[i][axis]);
+            } else if (96 <= i < 108) {
+                year9.push(weather[i][axis]);
+            } else if (108 <= i < 120) {
+                year10.push(weather[i][axis]);
+            }
+        }
+        this.setState({
+            chartData: {
+                labels: ["January", 'February', 'March', 'April', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                datasets: [
+                    {
+                        label: "Year 1 Line",
+                        data: year1,
+                        strokeColor: "rgba(151, 187, 205, 1)"
+                    }, {
+                        label: "Year 2 Line",
+                        data: year2,
+                        strokeColor: "rgba(121, 157, 105, 1)"
+
+                    }, {
+                        label: "Year 3 Line",
+                        data: year3,
+                        strokeColor: "rgba(161, 157, 105, 1)"
+
+                    }, {
+                        label: "Year 4 Line",
+                        data: year4,
+                        strokeColor: "rgba(111, 157, 105, 1)"
+
+                    }, {
+                        label: "Year 5 Line",
+                        data: year5,
+                        strokeColor: "rgba(121, 117, 105, 1)"
+
+                    }, {
+                        label: "Year 6 Line",
+                        data: year6,
+                        strokeColor: "rgba(101, 157, 105, 1)"
+
+                    }, {
+                        label: "Year 7 Line",
+                        data: year7,
+                        strokeColor: "rgba(121, 157, 165, 1)"
+
+                    }, {
+                        label: "Year 8 Line",
+                        data: year8,
+                        strokeColor: "rgba(181, 107, 105, 1)"
+
+                    }, {
+                        label: "Year 9 Line",
+                        data: year9,
+                        strokeColor: "rgba(143, 157, 105, 1)"
+
+                    }, {
+                        label: "Year 10 Line",
+                        data: year10,
+                        strokeColor: "rgba(121, 159, 105, 1)"
+
+                    }]
+            }
+        })
     }
 
+    handleChange = event => {
+        switch (event.currentTarget.options.selectedIndex) {
+            case 0:
+                console.log("High temperature");
+                this.setState({ axisDefinition: "temperatureHigh" });
+                break;
+            case 1:
+                console.log("Low temperature");
+                this.setState({ axisDefinition: "temperatureLow" });
+                break;
+            case 2:
+                console.log("Humidity");
+                this.setState({ axisDefinition: "humidity" });
+                break;
+        }
+    }
 
     render() {
         return (
             <div className="container">
-                <Bar
+                <Line
                     data={this.state.chartData}
                     width={1}
                     height={1}
@@ -36,7 +146,12 @@ class Chart extends Component {
                         maintainAspectRatio: true
                     }}
                 >
-                </Bar>
+                </ Line>
+                <Input type='select' label="Y-Axis" defaultValue={this.state.axisValue} onChange={this.handleChange}>
+                    <option value='1'>High Temp</option>
+                    <option value='2'>Low Temp</option>
+                    <option value='3'>Humidity</option>
+                </Input>
                 <button onClick={this.weatherInfo}>Weather here!</button>
             </div>
 
