@@ -1,5 +1,5 @@
 {
-  "name": "Climate-Change-App",
+  "name": "mern",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -13,7 +13,7 @@
     "build": "cd client && npm run build",
     "heroku-postbuild": "npm run build"
   },
-  "author": "",cd ..
+  "author": "",
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^4.1.0",
@@ -21,9 +21,9 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "express": "^4.16.4",
+    "express": "^4.16.3",
     "if-env": "^1.0.4",
-    "mongoose": "^5.4.10",
+    "mongoose": "^5.3.16",
     "morgan": "^1.9.1"
   }
 }
