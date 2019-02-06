@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import '../components/SearchField';
-import APIKEY from "./apiKeys";
+// import APIKEY from "./apiKeys";
 import Times from './unixTimes';
 import SearchField from "../components/SearchField";
 import BottomRow from '../components/BottomRow';
@@ -56,13 +56,15 @@ class Home extends Component {
     event.preventDefault();
     console.log(`Search for: ${this.state.search}`);
     let weatherHistoryData = [];
-    Axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.search}&key=${process.env.CageAPIKey || APIKEY.cageAPIKey}`)
-      .then(data => {
+    // Axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.search}&key=${process.env.CageAPIKey || APIKEY.cageAPIKey}`)
+    Axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.search}&key=${process.env.CageAPIKey}`)  
+    .then(data => {
         let { lat, lng } = data.data.results[0].geometry;
         this.setState({ lat: lat, lng: lng});
         for (let i = 0; i < 30; i++) {
-          Axios.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${process.env.darkSkyAPIKey || APIKEY.darkSkyAPIKey}/${lat},${lng},${Times.times[i]}?exclude=hourly,currently,flags`).then(data => {
-            console.log("Individual Data: ", data.data.daily.data[0]);
+          // Axios.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${process.env.darkSkyAPIKey || APIKEY.darkSkyAPIKey}/${lat},${lng},${Times.times[i]}?exclude=hourly,currently,flags`).then(data => {
+            Axios.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${process.env.darkSkyAPIKey}/${lat},${lng},${Times.times[i]}?exclude=hourly,currently,flags`).then(data => {  
+          console.log("Individual Data: ", data.data.daily.data[0]);
             weatherHistoryData.push(data.data.daily.data[0]);
             if (i === 29) {
               this.getAverageWeather(weatherHistoryData);
