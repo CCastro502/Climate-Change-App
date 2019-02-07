@@ -2,3 +2,11 @@
     width: 60%;
     margin: 3% auto;
 }
+
+#area label {
+    color: gainsboro;
+}
+
+#area input {
+    border-bottom-color: gainsboro;
+}

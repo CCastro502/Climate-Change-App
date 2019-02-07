@@ -20,11 +20,6 @@ class Nav extends Component {
 
   logIn = () => {
 
-    const newUser = {
-      email: this.state.loginEmail,
-      password: this.state.loginPassword
-    }
-
     Axios.get('/api/users/' + this.state.loginEmail + "/" + this.state.loginPassword + "/")
       .then(res => {
         if (res.data.length >= 1) {
@@ -86,8 +81,10 @@ class Nav extends Component {
     return (
       <>
         <nav className="navbar navbar-expand-lg navbar-light" id="nav">
-          <a className="navbar-brand" href="/">
-            Climate Change App
+          <a className="navbar-brand" href="/" id="logo">
+            <h1>
+              Climate Change App
+            </h1>
           </a>
           <div id="user-field">
 
@@ -105,8 +102,8 @@ class Nav extends Component {
             </Modal>
 
             <input className="form-control mr-sm-2" type="search" placeholder="abc@123.com" name="loginEmail" id="email" value={this.state.loginEmail} onChange={this.handleInputChange} />
-            <input className="form-control mr-sm-2" type="search" placeholder="Password" name="loginPassword" id="password" value={this.state.loginPassword} onChange={this.handleInputChange} type="password"/>
-            <button className="btn btn-outline-success my-2 my-sm-0" onClick={this.logIn}>Log In</button>
+            <input className="form-control mr-sm-2" type="search" placeholder="Password" name="loginPassword" id="password" value={this.state.loginPassword} onChange={this.handleInputChange} type="password" />
+            <button className="btn btn-outline-success my-2 my-sm-0" onClick={this.logIn} id="login">Log In</button>
 
           </div>
         </nav>

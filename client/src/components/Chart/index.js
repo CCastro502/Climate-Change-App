@@ -67,7 +67,7 @@ class Chart extends Component {
                     {
                         label: "Year 1 Line",
                         data: year1,
-                        strokeColor: "rgba(151, 187, 205, 1)"
+                        strokeColor: "rgba(220,220,220,1)"
                     }, {
                         label: "Year 2 Line",
                         data: year2,
