@@ -10,7 +10,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    background-color: silver;
+    background-color: gainsboro;
 }
 
 #user-field {
@@ -47,5 +47,20 @@ body {
 
 #login:hover {
     background-color: darkslategray;
+    color: whitesmoke;
+}
+
+#profile {
+    width: 100px;
+    height: 40px;
+    line-height: 1em;
+    padding: 0px;
+    background-color: darkslategray;
     color: white;
+}
+
+#profile:hover {
+    border-color: darkslategray;
+    background-color: whitesmoke;
+    color: darkslategray;
 }
