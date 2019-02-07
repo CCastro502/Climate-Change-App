@@ -24,7 +24,7 @@ class BottomRow extends Component {
                                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                                         url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
                                     />
-                                    <Marker position={this.latlng} >
+                                    <Marker position={this.props.latlng.lat ? this.props.latlng: { lat: 51.505, lng: -0.09 }} >
                                         <Popup>
                                             <span>A pretty CSS3 popup. <br /> Easily customizable</span>
                                         </Popup>
