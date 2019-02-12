@@ -17,8 +17,6 @@ class Home extends Component {
   }
 
   getAverageWeather = (weatherHistoryData) => {
-    console.log("Weather history: ", weatherHistoryData);
-    console.log(`Length: ${weatherHistoryData.length}`);
     let convertedWeatherData = [];
     for (let i = 0; i < weatherHistoryData.length; i++) {
       if (i === 0 || i % 3 === 0) {
@@ -43,7 +41,6 @@ class Home extends Component {
           windGust: (weatherHistoryData[i].windGust + weatherHistoryData[i + 1].windGust + weatherHistoryData[i + 2].windGust) / 2,
           windSpeed: (weatherHistoryData[i].windSpeed + weatherHistoryData[i + 1].windSpeed + weatherHistoryData[i + 2].windSpeed) / 2
         }
-        console.log("New Object: ", newObj);
         convertedWeatherData.push(newObj);
       }
 
@@ -61,12 +58,11 @@ class Home extends Component {
     .then(data => {
         let { lat, lng } = data.data.results[0].geometry;
         this.setState({ lat: lat, lng: lng});
-        for (let i = 0; i < 72; i++) {
+        for (let i = 0; i < 108; i++) {
           // Axios.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${process.env.darkSkyAPIKey || APIKEY.darkSkyAPIKey}/${lat},${lng},${Times.times[i]}?exclude=hourly,currently,flags`).then(data => {
             Axios.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/0c5ce774505eb65bf076f514cf46c7fe/${lat},${lng},${Times.times[i]}?exclude=hourly,currently,flags`).then(data => {  
-          console.log("Individual Data: ", data.data.daily.data[0]);
             weatherHistoryData.push(data.data.daily.data[0]);
-            if (i === 71) {
+            if (i === 107) {
               this.getAverageWeather(weatherHistoryData);
             }
           })

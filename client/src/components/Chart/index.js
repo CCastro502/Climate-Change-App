@@ -10,15 +10,26 @@ class Chart extends Component {
     state = {
         chartData: {
             labels: ["January", 'February', 'March', 'April', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-            datasets: [{
-                labels: 'Population',
-                data: [
-                    200,
-                    300,
-                    400,
-                    50000,
+            datasets:
+                [
+                    {
+                        label: 'Population',
+                        data: [
+                            100,
+                            200,
+                            300,
+                            400,
+                            500,
+                            600,
+                            700,
+                            800,
+                            900,
+                            1000,
+                            1100,
+                            1200
+                        ]
+                    }
                 ]
-            }]
         },
         axisValue: 1,
         axisDefinition: "temperatureHigh"
@@ -40,23 +51,23 @@ class Chart extends Component {
         for (let i = 0; i < weather.length; i++) {
             if (i < 12) {
                 year1.push(weather[i][axis]);
-            } else if (12 <= i < 24) {
+            } else if (i < 24) {
                 year2.push(weather[i][axis]);
-            } else if (24 <= i < 36) {
+            } else if (i < 36) {
                 year3.push(weather[i][axis]);
-            } else if (36 <= i < 48) {
+            } else if (i < 48) {
                 year4.push(weather[i][axis]);
-            } else if (48 <= i < 60) {
+            } else if (i < 60) {
                 year5.push(weather[i][axis]);
-            } else if (60 <= i < 72) {
+            } else if (i < 72) {
                 year6.push(weather[i][axis]);
-            } else if (72 <= i < 84) {
+            } else if (i < 84) {
                 year7.push(weather[i][axis]);
-            } else if (84 <= i < 96) {
+            } else if (i < 96) {
                 year8.push(weather[i][axis]);
-            } else if (96 <= i < 108) {
+            } else if (i < 108) {
                 year9.push(weather[i][axis]);
-            } else if (108 <= i < 120) {
+            } else if (i < 120) {
                 year10.push(weather[i][axis]);
             }
         }
