@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import '../components/SearchField';
-// import APIKEY from "./apiKeys";
+import APIKEY from "./apiKeys";
 import Times from './unixTimes';
 import SearchField from "../components/SearchField";
 import BottomRow from '../components/BottomRow';
@@ -53,14 +53,15 @@ class Home extends Component {
     event.preventDefault();
     console.log(`Search for: ${this.state.search}`);
     let weatherHistoryData = [];
-    // Axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.search}&key=${process.env.CageAPIKey || APIKEY.cageAPIKey}`)
-    Axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.search}&key=352a681eeea64cbeb49f0df280f14edc`)  
+    Axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.search}&key=${process.env.CageAPIKey || APIKEY.cageAPIKey}`)
+    // Axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.search}&key=`)
     .then(data => {
         let { lat, lng } = data.data.results[0].geometry;
         this.setState({ lat: lat, lng: lng});
         for (let i = 0; i < 108; i++) {
-          // Axios.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${process.env.darkSkyAPIKey || APIKEY.darkSkyAPIKey}/${lat},${lng},${Times.times[i]}?exclude=hourly,currently,flags`).then(data => {
-            Axios.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/0c5ce774505eb65bf076f514cf46c7fe/${lat},${lng},${Times.times[i]}?exclude=hourly,currently,flags`).then(data => {  
+          Axios.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${process.env.darkSkyAPIKey || APIKEY.darkSkyAPIKey}/${lat},${lng},${Times.times[i]}?exclude=hourly,currently,flags`)
+          .then(data => {
+            // Axios.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast//${lat},${lng},${Times.times[i]}?exclude=hourly,currently,flags`).then(data => {  
             weatherHistoryData.push(data.data.daily.data[0]);
             if (i === 107) {
               this.getAverageWeather(weatherHistoryData);
