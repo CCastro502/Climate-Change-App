@@ -18,16 +18,43 @@ class Nav extends Component {
     this.setState({ [name]: value });
   };
 
-  logIn = () => {
+  isLoggedIn = () => {
+    if (sessionStorage.length > 0) {
+      return (
+        <>
+          <button id="profile" href="/">My Profile</button>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Modal
+            header='User Info'
+            trigger={<a className="nav-link" id="register-link" onClick={this.registerUser}>register</a>}
+          >
+            <label htmlFor="search-field">Email: </label>
+            <input className="form-control mr-sm-6" name="email" id="email" placeholder="abc@123.com" value={this.state.email} onChange={this.handleInputChange} />
+            <label htmlFor="search-field">Password: </label>
+            <input className="form-control mr-sm-6" name="password" id="password" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} type="password" />
+            <label htmlFor="search-field">Repeat Password: </label>
+            <input className="form-control mr-sm-6" name="passwordRepeat" id="password-repeat" placeholder="Repeat Password..." type="password" value={this.state.passwordRepeat} onChange={this.handleInputChange} />
+            <button onClick={this.registerUser}>Register</button>
+          </Modal>
 
-    const newUser = {
-      email: this.state.loginEmail,
-      password: this.state.loginPassword
+          <input className="form-control mr-sm-2" type="search" placeholder="abc@123.com" name="loginEmail" id="email" value={this.state.loginEmail} onChange={this.handleInputChange} />
+          <input className="form-control mr-sm-2" type="search" placeholder="Password" name="loginPassword" id="password" value={this.state.loginPassword} onChange={this.handleInputChange} type="password" />
+          <button className="btn btn-outline-success my-2 my-sm-0" onClick={this.logIn} id="login">Log In</button>
+        </>
+      )
     }
+  }
+
+  logIn = () => {
 
     Axios.get('/api/users/' + this.state.loginEmail + "/" + this.state.loginPassword + "/")
       .then(res => {
         if (res.data.length >= 1) {
+          sessionStorage.setItem('email', this.state.loginEmail);
           alert("Log-in successful")
           this.setState({ loginEmail: "", loginPassword: "" });
         } else {
@@ -85,28 +112,14 @@ class Nav extends Component {
   render() {
     return (
       <>
-        <nav className="navbar navbar-expand-lg navbar-light">
-          <a className="navbar-brand" href="/">
-            Climate Change App
+        <nav className="navbar navbar-expand-lg navbar-light" id="nav">
+          <a className="navbar-brand" href="/" id="logo">
+            <h1>
+              Climate Change App
+            </h1>
           </a>
           <div id="user-field">
-
-            <Modal
-              header='User Info'
-              trigger={<a className="nav-link" id="register-link" onClick={this.registerUser}>register</a>}
-            >
-              <label htmlFor="search-field">Email: </label>
-              <input className="form-control mr-sm-6" name="email" id="email" placeholder="abc@123.com" value={this.state.email} onChange={this.handleInputChange} />
-              <label htmlFor="search-field">Password: </label>
-              <input className="form-control mr-sm-6" name="password" id="password" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} type="password" />
-              <label htmlFor="search-field">Repeat Password: </label>
-              <input className="form-control mr-sm-6" name="passwordRepeat" id="password-repeat" placeholder="Repeat Password..." type="password" value={this.state.passwordRepeat} onChange={this.handleInputChange} />
-              <button onClick={this.registerUser}>Register</button>
-            </Modal>
-
-            <input className="form-control mr-sm-2" type="search" placeholder="abc@123.com" name="loginEmail" id="email" value={this.state.loginEmail} onChange={this.handleInputChange} />
-            <input className="form-control mr-sm-2" type="search" placeholder="Password" name="loginPassword" id="password" value={this.state.loginPassword} onChange={this.handleInputChange} />
-            <button className="btn btn-outline-success my-2 my-sm-0" onClick={this.logIn}>Log In</button>
+            {this.isLoggedIn()}
 
           </div>
         </nav>
