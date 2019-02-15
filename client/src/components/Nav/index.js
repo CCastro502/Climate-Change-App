@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./style.css";
 import { Modal } from 'react-materialize';
 import Axios from 'axios';
+import crypto from 'crypto';
 
 class Nav extends Component {
   state = {
@@ -18,10 +19,41 @@ class Nav extends Component {
     this.setState({ [name]: value });
   };
 
+  genRandomString = length => {
+    console.log("randomString: ", crypto.randomBytes(Math.ceil(length / 2))
+    .toString('hex') /** convert to hexadecimal format */
+    .slice(0, length));
+    return crypto.randomBytes(Math.ceil(length / 2))
+      .toString('hex') /** convert to hexadecimal format */
+      .slice(0, length);   /** return required number of characters */
+  };
+
+  sha512 = (password, salt) => {
+    let hash = crypto.createHmac('sha512', salt); /** Hashing algorithm sha512 */
+    hash.update(password);
+    let value = hash.digest('hex');
+    return {
+      salt: salt,
+      passwordHash: value
+    };
+  };
+
+  saltHashPassword = userpassword => {
+    var salt = this.genRandomString(16); /** Gives us salt of length 16 */
+    var passwordData = this.sha512(userpassword, salt);
+    return { salt: passwordData.salt, passwordHash: passwordData.passwordHash }
+  }
+
+  logOut = () => {
+    sessionStorage.setItem("loggedIntoCCA", false);
+    window.location.reload();
+  }
+
   isLoggedIn = () => {
-    if (sessionStorage.length > 0) {
+    if (sessionStorage.getItem("loggedIntoCCA") === "true") {
       return (
         <>
+          <a className="nav-link" id="register-link" onClick={this.logOut}>Log Out</a>
           <button id="profile" href="/">My Profile</button>
         </>
       );
@@ -50,21 +82,18 @@ class Nav extends Component {
   }
 
   logIn = () => {
-
-    Axios.get('/api/users/' + this.state.loginEmail + "/" + this.state.loginPassword + "/")
+    const returnUser = { email: this.state.loginEmail, password: this.state.loginPassword };
+    Axios.get(`/api/users/${this.state.loginEmail}/${this.state.loginPassword}`, returnUser )
       .then(res => {
-        if (res.data.length >= 1) {
-          sessionStorage.setItem('email', this.state.loginEmail);
-          alert("Log-in successful")
-          this.setState({ loginEmail: "", loginPassword: "" });
-        } else {
-          alert("You're log-in credentials are not correct.")
-          this.setState({ loginPassword: "" })
-        }
-        console.log("respo: ", res);
-        return res;
+        alert("You have logged in successfully");
+        sessionStorage.setItem('loggedIntoCCA', true);
+        this.setState({ loginEmail: "", loginPassword: "" });
+        return;
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        alert("Log in attempt unsuccessful");
+        this.setState({ loginPassword: "" })
+      })
   }
 
   checkEmail = () => {
@@ -82,9 +111,12 @@ class Nav extends Component {
 
       if (this.state.password === this.state.passwordRepeat && this.state.password.length > 7) {
 
+        const { salt, passwordHash } = this.saltHashPassword(this.state.password);
+
         const newUser = {
           email: this.state.email,
-          password: this.state.password
+          passwordHash: passwordHash,
+          salt: salt
         }
 
         Axios.post('/api/users', newUser)

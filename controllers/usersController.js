@@ -1,27 +1,46 @@
+const crypto = require("crypto");
 const db = require("../models");
 
 // Defining methods for the booksController
 module.exports = {
-  findAll: function(req, res) {
+
+  checkPassword: function (passwordHash, salt, password) {
+    let hash = crypto.createHmac('sha512', salt);
+    hash.update(password);
+    let value = hash.digest('hex');
+
+    console.log("Password Hash: ", passwordHash, "\nValue: ", value)
+    if (passwordHash === value) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+  findAll: function (req, res) {
     db.User
-      .find({ email: req.params.email, password: req.params.password})
-      .then(dbModel => res.json(dbModel))
+      .find({ email: req.params.email })
+      .then(dbModel => {
+        const { passwordHash, salt } = dbModel[0];
+        let isPwCorrect = module.exports.checkPassword(passwordHash, salt, req.params.password)
+        console.log(isPwCorrect);
+        isPwCorrect ? res.json(dbModel) : res.status(422).json({ error: "password is not correct, or system is malfunctioning" });
+      })
       .catch(err => res.status(422).json(err))
   },
-  findById: function(req, res) {
+
+  findById: function (req, res) {
     db.User
       .findById(req.params.id)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
-  create: function(req, res) {
-    console.log(req);
+  create: function (req, res) {
     db.User
       .create(req.body)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
-  update: function(req, res) {
+  update: function (req, res) {
     db.User
       .findOneAndUpdate({ _id: req.params.id }, req.body)
       .then(dbModel => res.json(dbModel))
