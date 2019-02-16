@@ -53,15 +53,13 @@ class Home extends Component {
     event.preventDefault();
     console.log(`Search for: ${this.state.search}`);
     let weatherHistoryData = [];
-    Axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.search}&key=${process.env.CageAPIKey || APIKEY.cageAPIKey}`)
-    // Axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.search}&key=`)
+    Axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.search}&key=${APIKEY.cageAPIKey}`)
     .then(data => {
         let { lat, lng } = data.data.results[0].geometry;
         this.setState({ lat: lat, lng: lng});
         for (let i = 0; i < 108; i++) {
-          Axios.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${process.env.darkSkyAPIKey || APIKEY.darkSkyAPIKey}/${lat},${lng},${Times.times[i]}?exclude=hourly,currently,flags`)
+          Axios.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${APIKEY.darkSkyAPIKey}/${lat},${lng},${Times.times[i]}?exclude=hourly,currently,flags`)
           .then(data => {
-            // Axios.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast//${lat},${lng},${Times.times[i]}?exclude=hourly,currently,flags`).then(data => {  
             weatherHistoryData.push(data.data.daily.data[0]);
             if (i === 107) {
               this.getAverageWeather(weatherHistoryData);
