@@ -67,11 +67,11 @@ class Home extends Component {
       .then(data => {
         let { lat, lng } = data.data.results[0].geometry;
         this.setState({ lat: lat, lng: lng });
-        for (let i = 0; i < 72; i++) {
+        for (let i = 0; i < Times.times.length; i++) {
           Axios.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${APIKEY.darkSkyAPIKey}/${lat},${lng},${Times.times[i]}?exclude=hourly,currently,flags`)
             .then(data => {
               weatherHistoryData.push(data.data.daily.data[0]);
-              if (i === 71) {
+              if (i === (Times.times.length - 1)) {
                 this.getAverageWeather(weatherHistoryData);
               }
             })
