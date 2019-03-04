@@ -86,9 +86,7 @@ class Profile extends Component {
         </>
       )
     } else {
-      return (
-        <h1>Hi muffin!</h1>
-      )
+      return;
     }
 
   }

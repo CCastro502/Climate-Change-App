@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./HomeStyle.css";
 import '../components/SearchField';
-// import APIKEY from "./apiKeys";
+import APIKEY from "./apiKeys";
 import Times from './unixTimes';
 import SearchField from "../components/SearchField";
 import BottomRow from '../components/BottomRow';
@@ -63,12 +63,12 @@ class Home extends Component {
     this.setState({ readyToSearch: false });
     console.log(`Search for: ${this.state.search}`);
     let weatherHistoryData = [];
-    Axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.search}&key=352a681eeea64cbeb49f0df280f14edc`)
+    Axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.state.search}&key=${APIKEY.cageAPIKey}`)
       .then(data => {
         let { lat, lng } = data.data.results[0].geometry;
         this.setState({ lat: lat, lng: lng });
         for (let i = 0; i < Times.times.length; i++) {
-          Axios.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/0c5ce774505eb65bf076f514cf46c7fe/${lat},${lng},${Times.times[i]}?exclude=hourly,currently,flags`)
+          Axios.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${APIKEY.darkSkyAPIKey}/${lat},${lng},${Times.times[i]}?exclude=hourly,currently,flags`)
             .then(data => {
               weatherHistoryData.push(data.data.daily.data[0]);
               if (i === (Times.times.length - 1)) {
