@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import SavedCard from "../components/SavedCard";
 import Axios from "axios";
 import "./ProfileStyle.css";
-import { isString } from "util";
 
 class Profile extends Component {
   state = {

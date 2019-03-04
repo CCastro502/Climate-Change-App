@@ -69,9 +69,9 @@ class Nav extends Component {
             trigger={<a className="nav-link" id="register-link" onClick={this.registerUser}>register</a>}
           >
             <label htmlFor="search-field">Email: </label>
-            <input className="form-control mr-sm-6" name="email" id="email" placeholder="abc@123.com" value={this.state.email} onChange={this.handleInputChange} />
+            <input className="form-control mr-sm-6" name="email" placeholder="abc@123.com" value={this.state.email} onChange={this.handleInputChange} />
             <label htmlFor="search-field">Password: </label>
-            <input className="form-control mr-sm-6" name="password" id="password" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} type="password" />
+            <input className="form-control mr-sm-6" name="password" placeholder="Password" value={this.state.password} onChange={this.handleInputChange} type="password" />
             <label htmlFor="search-field">Repeat Password: </label>
             <input className="form-control mr-sm-6" name="passwordRepeat" id="password-repeat" placeholder="Repeat Password..." type="password" value={this.state.passwordRepeat} onChange={this.handleInputChange} />
             <button onClick={this.registerUser}>Register</button>

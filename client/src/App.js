@@ -12,7 +12,7 @@ function App() {
         <Nav />
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/profile/:email" component={Profile} />
+          <Route path="/profile/:email" component={Profile} />
           <Route component={NoMatch} />
         </Switch>
         </>
