@@ -3,6 +3,7 @@ import "./style.css";
 import { Modal } from 'react-materialize';
 import Axios from 'axios';
 import crypto from 'crypto';
+import { Link } from 'react-router-dom';
 
 class Nav extends Component {
   state = {
@@ -58,7 +59,7 @@ class Nav extends Component {
       return (
         <>
           <a className="nav-link" id="register-link" onClick={this.logOut}>Log Out</a>
-          <a href={this.goToProfile()}><button id="profile">My Profile</button></a>
+          <Link to={this.goToProfile()}><button id="profile">My Profile</button></Link>
         </>
       );
     } else {
