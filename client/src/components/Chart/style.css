@@ -7,3 +7,18 @@
     opacity: 0.95;
     color: white;
 }
+
+#title {
+    display: flex;
+    justify-content: space-between;
+}
+
+#title-text {
+    width: 75%;
+    margin: 0;
+    padding: 0;
+}
+
+#dark-sky {
+    width: 20%;
+}

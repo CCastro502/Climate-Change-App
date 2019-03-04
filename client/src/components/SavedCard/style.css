@@ -1,0 +1,40 @@
+ .myCard {
+     width: 100%;
+ }
+
+.card-holder {
+    margin-top: 20px;
+    width: 100%;
+    /* padding-top: 15%; */
+}
+
+.chart-title {
+    font: bold 20px/1.5 Helvetica, Verdana, sans-serif;
+}
+ 
+ul {
+    list-style-type: none;
+    width: 100%;
+    overflow-y: scroll; 
+    height: 550px;
+}
+ 
+li img {
+  float: left;
+  margin: 0 15px 0 0;
+  width: 100px;
+}
+ 
+li p {
+  font: 200 12px/1.5 Georgia, Times New Roman, serif;
+}
+ 
+li {
+  padding: 10px;
+  overflow: auto;
+}
+ 
+li:hover {
+  background: #eee;
+  cursor: pointer;
+}

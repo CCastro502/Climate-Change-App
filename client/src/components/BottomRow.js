@@ -14,7 +14,7 @@ class BottomRow extends Component {
             <div className="container">
                 <div className="row">
                     <div className="col-md-6">
-                        <Chart weatherAverages={this.props.weatherAverages} />
+                        <Chart weatherAverages={this.props.weatherAverages} latlng={this.props.latlng} />
                     </div>
                     <div className="col-md-6">
                         <div id="mapid">

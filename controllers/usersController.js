@@ -27,10 +27,16 @@ module.exports = {
       })
       .catch(err => res.status(422).json(err))
   },
-
-  findById: function (req, res) {
+  findOne: function (req, res) {
     db.User
-      .findById(req.params.id)
+      .findOne({ email: req.params.email })
+      .then(dbModel => {
+        res.json(dbModel.saved)
+      })
+  },
+  find: function (req, res) {
+    db.User
+      .findOne({ email: req.params.email })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
@@ -40,10 +46,20 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
-  update: function (req, res) {
+  addChart: function (req, res) {
     db.User
-      .findOneAndUpdate({ _id: req.params.id }, req.body)
-      .then(dbModel => res.json(dbModel))
+      .findOne({ email: req.params.email })
+      .then(currentRow => {
+        db.User.findOneAndUpdate({ email: req.params.email }, { saved: [...currentRow.saved, req.body] })
+          .then(dbModel => res.json(dbModel))
+          .catch(err => res.status(422).json(err));
+      })
       .catch(err => res.status(422).json(err));
+  },
+  updateRow: function (req, res) {
+    db.User
+      .findOneAndUpdate({ email: req.params.email}, { saved: req.body })
+        .then(dbModel => res.json(dbModel))
+        .catch(err => res.status(422).json(err));
   }
 };

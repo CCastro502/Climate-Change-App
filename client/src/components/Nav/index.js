@@ -21,8 +21,8 @@ class Nav extends Component {
 
   genRandomString = length => {
     console.log("randomString: ", crypto.randomBytes(Math.ceil(length / 2))
-    .toString('hex') /** convert to hexadecimal format */
-    .slice(0, length));
+      .toString('hex') /** convert to hexadecimal format */
+      .slice(0, length));
     return crypto.randomBytes(Math.ceil(length / 2))
       .toString('hex') /** convert to hexadecimal format */
       .slice(0, length);   /** return required number of characters */
@@ -49,12 +49,16 @@ class Nav extends Component {
     window.location.reload();
   }
 
+  goToProfile = () => {
+    return `/profile/${sessionStorage.getItem('email')}`;
+  }
+
   isLoggedIn = () => {
     if (sessionStorage.getItem("loggedIntoCCA") === "true") {
       return (
         <>
           <a className="nav-link" id="register-link" onClick={this.logOut}>Log Out</a>
-          <button id="profile" href="/">My Profile</button>
+          <a href={this.goToProfile()}><button id="profile">My Profile</button></a>
         </>
       );
     } else {
@@ -82,23 +86,41 @@ class Nav extends Component {
   }
 
   logIn = () => {
-    const returnUser = { email: this.state.loginEmail, password: this.state.loginPassword };
-    Axios.get(`/api/users/${this.state.loginEmail}/${this.state.loginPassword}`, returnUser )
-      .then(res => {
-        alert("You have logged in successfully");
-        sessionStorage.setItem('loggedIntoCCA', true);
-        this.setState({ loginEmail: "", loginPassword: "" });
-        return;
-      })
-      .catch(err => {
-        alert("Log in attempt unsuccessful");
-        this.setState({ loginPassword: "" })
-      })
+    console.log(this.checkEmail(this.state.loginEmail));
+    console.log(this.checkPassword());
+    if (this.checkEmail(this.state.loginEmail) && this.checkPassword()) {
+      console.log("Passed checks");
+      const returnUser = { email: this.state.loginEmail, password: this.state.loginPassword };
+      Axios.get(`/api/users/${this.state.loginEmail}/${this.state.loginPassword}`, returnUser)
+        .then(res => {
+          alert("You have logged in successfully");
+          sessionStorage.setItem('loggedIntoCCA', true);
+          sessionStorage.setItem('email', this.state.loginEmail);
+          this.setState({ loginEmail: "", loginPassword: "" });
+          return;
+        })
+        .catch(err => {
+          alert("Log in attempt unsuccessful");
+          this.setState({ loginPassword: "" })
+        });
+    } else {
+      alert("Log in attempt unsuccessful");
+      this.setState({ loginPassword: "" });
+    }
+
   }
 
-  checkEmail = () => {
+  checkEmail = password => {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(this.state.email);
+    return re.test(password);
+  }
+
+  checkPassword = () => {
+    if ((this.state.loginPassword).length > 7) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   closeModal = () => {
@@ -107,7 +129,7 @@ class Nav extends Component {
 
   registerUser = () => {
 
-    if (this.checkEmail()) {
+    if (this.checkEmail(this.state.email)) {
 
       if (this.state.password === this.state.passwordRepeat && this.state.password.length > 7) {
 

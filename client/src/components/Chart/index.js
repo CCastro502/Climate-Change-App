@@ -3,6 +3,7 @@ import "./style.css";
 import { Line } from "react-chartjs-2";
 import { SSL_OP_TLS_ROLLBACK_BUG } from "constants";
 import { Input } from 'react-materialize';
+import Axios from "axios";
 
 
 
@@ -32,7 +33,17 @@ class Chart extends Component {
                 ]
         },
         axisValue: 1,
-        axisDefinition: "temperatureHigh"
+        axisDefinition: "temperatureHigh",
+        title: ""
+    }
+
+    componentDidMount() {
+        this.canDefineAxis();
+    }
+
+    handleInputChange = event => {
+        const { name, value } = event.target;
+        this.setState({ [name]: value });
     }
 
     weatherInfo = () => {
@@ -174,19 +185,48 @@ class Chart extends Component {
         }
     }
 
-    render() {
-        return (
-            <div className="container">
-                <Line
-                    data={this.state.chartData}
-                    id="chart"
-                    width={1}
-                    height={1}
-                    options={{
-                        maintainAspectRatio: true
-                    }}
-                >
-                </ Line>
+    grabTitle = () => {
+        if (this.state.title) {
+            return this.state.title;
+        } else {
+            return "No given title";
+        }
+    }
+
+    saveChart = () => {
+        const deets = [this.props.latlng, this.state.axisDefinition, this.grabTitle(), "No comment has been given to this chart"];
+        console.log("deets", deets);
+        console.log(`/api/users/save/${sessionStorage.getItem('email')}`);
+        Axios.post(`/api/users/save/${sessionStorage.getItem('email')}`, deets)
+            .then(res => {
+                console.log("Successful: ", res);
+                alert("You have saved");
+                return res;
+            })
+            .catch(err => console.log(err));
+    }
+
+    canSave = () => {
+        if (!isNaN(this.props.latlng.lat) && sessionStorage.getItem("loggedIntoCCA") === "true") {
+            return (
+                <div id="title">
+                    Title: <input type="text" value={this.state.title} name="title" onChange={this.handleInputChange} />
+                    <button id='save' onClick={this.saveChart}>Save Me</button>
+                </div>
+            );
+        } else {
+            return (
+                <div id="title">
+                    <input type="text" value={this.state.title} name="title" onChange={this.handleInputChange} id="title-text" placeholder="Give your chart a title" />
+                    <button id='save' disabled>Save Me</button>
+                </div>
+            );
+        }
+    }
+
+    canDefineAxis = () => {
+        if (this.props.weatherAverages) {
+            return (<>
                 <Input type='select' label="Y-Axis" defaultValue={this.state.axisValue} onChange={this.handleChange}>
                     <option value='1'>High Temp</option>
                     <option value='2'>Low Temp</option>
@@ -200,6 +240,30 @@ class Chart extends Component {
                     <option value='10'>Pressure</option>
                 </Input>
                 <button onClick={this.weatherInfo}>Weather here!</button>
+            </>);
+        } else {
+            return (<>
+                <a href="https://darksky.net/poweredby/"><img src="https://darksky.net/dev/img/attribution/poweredby.png" id="dark-sky" /></a>
+            </>);
+        }
+    }
+
+    render() {
+        return (
+            <div className="container">
+                {this.canSave()}
+                <Line
+                    data={this.state.chartData}
+                    id="chart"
+                    width={1}
+                    height={1}
+                    options={{
+                        maintainAspectRatio: true
+                    }}
+                >
+                </ Line>
+                {this.canDefineAxis()}
+
             </div>
 
 
